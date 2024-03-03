@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
+  "scripts": { 
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev" : "nodemon api/index.js",
     "start":"node api/index.js"
-  },
+  }, 
   "keywords": [],
   "author": "",
   "license": "ISC",
