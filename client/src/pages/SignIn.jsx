@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {Link ,useNavigate} from 'react-router-dom'
 import  { useDispatch, useSelector } from 'react-redux'
 import {signInStart,signInFailure,signInsuccess} from '../redux/user/userSlice.js'
+import Oauth from '../components/Oauth.jsx';
  
 export default function Signin() {
   const [formData, setFormData] = useState({});
@@ -59,6 +60,7 @@ export default function Signin() {
       rounded-lg uppercase hover:opacity-90'>
         {loading?"Loading...":"Sign in"}
       </button>
+      <Oauth/>
    </form>
    <div className='flex gap-4 mt-5'>
     <p>Dont have an account?</p>
