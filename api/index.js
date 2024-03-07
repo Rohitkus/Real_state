@@ -21,6 +21,9 @@ app.listen(3000,()=>{console.log(
 
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
+
+// middleware for error handling///////
+
 app.use((err, req,res,next)=>{
     const statusCode=err.statusCode ||500;
     const message= err.message || "internal server error"
