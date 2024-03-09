@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import  userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
 import cookieParser from "cookie-parser";
+import listingRoute from "./routes/listing.route.js"
 dotenv.config();
 
 mongoose.connect (process.env.MONGO).then(()=>{
@@ -23,6 +24,7 @@ app.listen(3000,()=>{console.log(
 
 app.use('/api/user',userRouter)
 app.use('/api/auth',authRouter)
+app.use('/api/listing',listingRoute)
 
 // middleware for error handling///////
 
