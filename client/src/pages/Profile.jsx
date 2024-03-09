@@ -172,13 +172,13 @@ export default function Profile() {
           onChange={handleChange}
         />
         <input
-          type="password"
+          type="text"
           placeholder="Password"
           className="border p-3
         rounded-lg w-full"
           id="password"
           onChange={handleChange}
-          defaultValue={currentUser.username}
+          defaultValue={currentUser.password}
         />
         <button
           disabled={loading}
@@ -188,7 +188,7 @@ export default function Profile() {
         >
           {loading ? "Loading..." : "update"}
         </button>
-
+        </form>
         <button className="w-full p-3 rounded-lg uppercase 
         hover:opacity-95 disabled:opacity-80 bg-green-700
          text-white"><Link to="/createlisting">create listing</Link></button>
@@ -211,7 +211,7 @@ export default function Profile() {
         <p className="text-green-700">
           {update ? "user updated Succesfully " : ""}
         </p>
-      </form>
+     
     </div>
   );
 }
