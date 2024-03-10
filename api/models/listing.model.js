@@ -15,7 +15,7 @@ const listingScheme = new mongoose.Schema(
         type:String,
         required:true
       },
-      regulatPrice:{
+      regularPrice:{
         type:Number,
         required:true
 
@@ -28,7 +28,7 @@ const listingScheme = new mongoose.Schema(
         type:Number,
         required:true
       },
-      bedroom:{
+      bedrooms:{
         type:Number,
         required:true
       },
