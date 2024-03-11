@@ -15,7 +15,9 @@ import {
   deleteUserFailure,
   deleteUserSuccess,
   deleteUserStart,
-  signoutUserFailure,signoutUserSuccess,signoutUserStart
+  signoutUserFailure,
+  signoutUserSuccess,
+  signoutUserStart,
 } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 export default function Profile() {
@@ -26,6 +28,8 @@ export default function Profile() {
   const [fileper, setfileper] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [update, setupdate] = useState(false);
+  const [showlistingerro, setShowlistingerror] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -108,17 +112,34 @@ export default function Profile() {
 
   const handlesignout = async () => {
     try {
-    dispatch(signoutUserStart())
+      dispatch(signoutUserStart());
       const res = await fetch("/api/auth/signout");
       const data = res.json();
       if (data.success === false) {
         dispatch(signoutUserFailure(data.message));
-        return
+        return;
       }
-  dispatch(signoutUserSuccess())
-      
+      dispatch(signoutUserSuccess());
     } catch (error) {
-   dispatch(signoutUserFailure(error.message))
+      dispatch(signoutUserFailure(error.message));
+    }
+  };
+
+  const handleShowListings = async () => {
+    try {
+      setShowlistingerror(false);
+      const res = await fetch(`/api/user/listing/${currentUser._id}`);
+      const data =await res.json();
+     
+      if (data.success === false) {
+        setShowlistingerror(true);
+        return;
+      }
+     
+    
+    setUserListings(data);
+    } catch (error) {
+      setShowlistingerror(true);
     }
   };
 
@@ -188,30 +209,80 @@ export default function Profile() {
         >
           {loading ? "Loading..." : "update"}
         </button>
-        </form>
-        <button className="w-full p-3 rounded-lg uppercase 
+      </form>
+      <button
+        className="w-full p-3 rounded-lg uppercase 
         hover:opacity-95 disabled:opacity-80 bg-green-700
-         text-white"><Link to="/createlisting">create listing</Link></button>
+         text-white"
+      >
+        <Link to="/createlisting">create listing</Link>
+      </button>
 
-        <div className="flex justify-between mt-5">
-          <span
-            className="text-red-800 cursor-pointer font-semibold "
-            onClick={handleDeleteUser}
-          >
-            Delete account
-          </span>
-          <span
-            className="text-red-800 cursor-pointer font-semibold"
-            onClick={handlesignout}
-          >
-            Sign out
-          </span>
+      <div className="flex justify-between mt-5">
+        <span
+          className="text-red-800 cursor-pointer font-semibold "
+          onClick={handleDeleteUser}
+        >
+          Delete account
+        </span>
+        <span
+          className="text-red-800 cursor-pointer font-semibold"
+          onClick={handlesignout}
+        >
+          Sign out
+        </span>
+      </div>
+      <p className="text-red-700">{error ? error : ""}</p>
+      <p className="text-green-700">
+        {update ? "user updated Succesfully " : ""}
+      </p>
+
+      <button onClick={handleShowListings} className='text-green-700 w-full'>
+        Show Listings
+      </button>
+      <p className='text-red-700 mt-5'>
+        {showlistingerro ? 'Error showing listings' : ''}
+      </p>
+
+      {userListings && userListings.length > 0 && (
+        <div className='flex flex-col gap-4'>
+          <h1 className='text-center mt-7 text-2xl font-semibold'>
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className='border rounded-lg p-3 flex justify-between items-center gap-4'
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls}
+                  alt='listing cover'
+                  className='h-16 w-16 object-contain'
+                />
+              </Link>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+
+              <div className='flex flex-col item-center'>
+                <button
+                  // onClick={() => handleListingDelete(listing._id)}
+                  className='text-red-700 uppercase'
+                >
+                  Delete
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className='text-green-700 uppercase'>Edit</button>
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="text-red-700">{error ? error : ""}</p>
-        <p className="text-green-700">
-          {update ? "user updated Succesfully " : ""}
-        </p>
-     
+      )}
     </div>
   );
 }
