@@ -14,7 +14,7 @@ import {
   FaParking,
   FaShare,
 } from 'react-icons/fa';
-// import Contact from '../components/Contact';
+import Contact from '../components/Contact';
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 
 export default function Listing() {
@@ -57,14 +57,14 @@ export default function Listing() {
       )}
       {listing && !loading && !error && (
         <div>
-          <Swiper navigation className='h-3/5'>
+          <Swiper navigation className='h-3/5 m-2'>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div
                   className='h-[450px]'
                   style={{
                     background: `url(${url}) center no-repeat`,
-                    backgroundSize: 'contain',
+                    backgroundSize: 'cover',
                   }}
                 ></div>
               </SwiperSlide>
@@ -87,7 +87,7 @@ export default function Listing() {
               Link copied!
             </p>
           )}
-          <div className='flex flex-col max-w-4xl mx-auto p-3 my-7 gap-5'>
+          <div className='flex flex-col max-w-5xl mx-auto p-3 my-7 gap-5'>
             <p className='text-2xl font-semibold'>
               {listing.name} - ${' '}
               {listing.offer
