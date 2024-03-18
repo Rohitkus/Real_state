@@ -1,6 +1,7 @@
 
 import {useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/Listingitem";
 
 export default function Search() {
   
@@ -187,9 +188,23 @@ fetchListing();
       </div>
 
       {/*right side */}
-      <div >
+      <div  className="flex-1 p-6">
         <h1 className="text-3xl font-semibold 
         text-center p-3">Listing Results</h1>
+        <div className="flex flex-wrap gap-4">{
+
+          !loading && listing.length===0 &&(
+            <p className="text-2xl text-slate-700"> No Listing Found! </p>
+          )
+}
+
+{loading && <p className="text-2xl text-slate-700  text-center w-full">Loading...</p>}
+
+
+{
+  !loading && listing && listing.map((listing)=> <ListingItem key={listing._id} listing={listing} />)
+}
+</div>
       </div>
     </div>
   );
