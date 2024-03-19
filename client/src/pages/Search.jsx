@@ -8,6 +8,7 @@ export default function Search() {
   const nevigate= useNavigate()
   const [loading,setLoading]= useState(false);
   const [listing,setListing]= useState([])
+  const [showmore,setShowmore] = useState(false)
   const [sidebar,setSidebar] =useState({
          searchTerm:'',
          type:'all',
@@ -19,7 +20,7 @@ export default function Search() {
 
   })
   // console.log(sidebar);
-  console.log(listing)
+  
 
   useEffect(()=>{
     const urlParam = new URLSearchParams(location.search);
@@ -54,10 +55,19 @@ export default function Search() {
 
 const fetchListing= async()=>{
            setLoading(true);
+           showmore(false)
           
                const searchQuery=urlParam.toString();
            const res= await fetch(`/api/listing/get?${searchQuery}`)
            const data=await res.json();
+            
+           if(data.length>8){
+            setShowmore(true)
+           }
+           else{
+            showmore(false)
+           }
+           
            setListing(data);
            setLoading(false)
 
@@ -69,7 +79,7 @@ fetchListing();
   },[location.search])
 
   const handlechange=(e)   =>{
-    if(e.target.id==='all' || e.target.id==='rent' || e.target.id==='sell'){
+    if(e.target.id==='all' || e.target.id==='rent' || e.target.id==='sale'){
       setSidebar({...sidebar,type:e.target.id})
     }
 
@@ -100,9 +110,26 @@ fetchListing();
     urlParams.set('offer',sidebar.offer);
     urlParams.set('sort',sidebar.sort);
     urlParams.set('order',sidebar.order);
-    const searchQuery=urlParams.toString()
+    const searchQuery=urlParams.toString()  
     nevigate(`/search?${searchQuery}`)
   }
+  
+    const onShoeMoreCkick=async()=>{
+       const numberOfListing = listing.length;
+       const startIndex= numberOfListing;
+       const urlParams=new URLSearchParams(location.search)
+       urlParams.set('startIndex',startIndex)
+       const searchQuery= urlParams.toString();
+       const res = await fetch(`/api/listing/get?${searchQuery}`)
+       const data= await res.json();
+       if(data.length<9){
+setShowmore(false)
+       }
+           setListing([...listing , ...data])
+
+    }
+
+
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -138,10 +165,10 @@ fetchListing();
             </div>
 
             <div className=" flex gap-3 ">
-              <input type="checkbox" id="sell" className="w-5"
+              <input type="checkbox" id="sale" className="w-5"
               
               onChange={handlechange}
-              checked={sidebar.type==='sell'}/>
+              checked={sidebar.type==="sale"}/>
               <span> Sell</span>
             </div>
             <div className=" flex gap-3 ">
@@ -203,6 +230,14 @@ fetchListing();
 
 {
   !loading && listing && listing.map((listing)=> <ListingItem key={listing._id} listing={listing} />)
+}
+{
+  showmore &&  (
+    <button className="text-green-700 hover:underline p-7 text-center w-full"
+    onClick={onShoeMoreCkick}>
+      show More...
+      </button>
+  )
 }
 </div>
       </div>
