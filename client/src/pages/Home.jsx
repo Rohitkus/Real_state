@@ -98,7 +98,7 @@ console.log(error)
 
       {/* Listings */}
 
-      <div className="px-2 sm:px-20 mx-auto  flex-col gap-5 ">
+      <div className="px-5 sm:px-20 mx-auto  flex-col gap-5 ">
                {
                 offerListing && offerListing.length>0 && (
                   <div className=" p-0">
@@ -124,9 +124,9 @@ console.log(error)
                 rentlisting && rentlisting.length>0 && (
                   <div className="py-20">
                     <div className=" flex  flex-col justify-center items-center p-4">
-                      <h2 className="text-2xl font-semibold  text-slate-700">Recent places for Rent</h2>
+                      <h2 className="md:text-3xl text-xl  font-semibold  text-slate-700">Recent Places for Rent</h2>
                       <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=rent"}>
-                        show More Places for rent
+                        show more places for rent
                       </Link>
                     </div>
                     <div className="flex flex-wrap justify-center gap-3 ">
@@ -149,7 +149,7 @@ console.log(error)
                     <div className=" flex  flex-col justify-center items-center  p-4" >
                       <h2 className="text-2xl font-semibold  text-slate-700">Recent Places for Sale</h2>
                       <Link className="text-sm text-blue-800 hover:underline" to={"/search?type=sale"}>
-                        show MorePlaces for sale
+                        show more places for sale
                       </Link>
                     </div>
                     <div className="flex flex-wrap justify-center gap-3 ">

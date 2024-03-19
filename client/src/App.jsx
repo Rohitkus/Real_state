@@ -34,7 +34,7 @@ export default function App() {
     <Route path="/updatelisting/:listingId" element={<UpdateListing/>}/>
     </Route>
 
-    <Route path="*" element={<Errorpage/>}/>
+  
 
   </Routes>
   </BrowserRouter>
